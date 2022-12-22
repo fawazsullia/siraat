@@ -11,7 +11,6 @@ console.log(__dirname)
 
 const app = createExpressServer({
     routePrefix : "/api",
-    // controllers : [path.join("./controllers/index")]
     controllers : [path.join(__dirname + "/controllers/index.js")]
 
 })
