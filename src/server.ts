@@ -17,8 +17,9 @@ const app = createExpressServer({
 
 
 
-dbConfig.init()
+dbConfig.initialize()
 .then(()=> {
+    console.log("DB connection successfull. Attempting to start server")
     app.listen(APP_PORT, ()=> console.log(`Server started on port ${APP_PORT}`))
 })
 .catch(e => console.log(e))
