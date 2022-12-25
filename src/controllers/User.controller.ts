@@ -1,6 +1,8 @@
-import {Controller, Get} from "routing-controllers"
+import {Controller, Get, UseBefore} from "routing-controllers"
+import {json} from "body-parser"
 
-@Controller()
+@Controller("/user")
+@UseBefore(json())
 export class UserController{
 
     @Get("/test")
