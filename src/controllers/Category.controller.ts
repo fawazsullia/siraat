@@ -1,4 +1,4 @@
-import { Body, JsonController, Post, UseBefore } from "routing-controllers";
+import { Body, Get, JsonController, Post, UseBefore } from "routing-controllers";
 import { categoryService } from "../services/Category.service";
 import {json} from "body-parser"
 import { CreatecategoryRequest, GenericReponse } from "../models/index";
@@ -13,26 +13,23 @@ export class CategoryController{
     // only admin user can add or delete category
 
     /**
-     * API to create a category
+     * API to create, update or delete a category
      * @param requestBody : name, shortname
      * @returns created category
      */
 
-    @Post("/create")
+    @Post("/handle")
     public async createCategory(
         @Body() requestBody: CreatecategoryRequest
-    ) : Promise<CreateCategoryResponse>{
-        const {name, shortName} = requestBody;
-        const response =  await categoryService.createCategory(name, shortName);
-        return new CreateCategoryResponse(response)
+    ) : Promise<GenericReponse>{
+        await categoryService.handleCategory(requestBody);
+        return new GenericReponse()
     }
 
-    @Post("/update")
-    public async updateCategory(
-        @Body() requestBody: any
-    ) : Promise<GenericReponse>{
-        const {name, newName} = requestBody;
-        await categoryService.updateCategory(name, newName);
-        return new GenericReponse();
+    @Post("/getCategories")
+    public async getCategories(
+        @Body() requestBody: {isAggregated? : boolean}
+    ) : Promise<any>{
+        const response = await categoryService.getCategories(requestBody.isAggregated);
     }
 }
