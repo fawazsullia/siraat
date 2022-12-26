@@ -8,7 +8,7 @@ export class SubGroup{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(()=> Group)
+    @ManyToOne(()=> Group, (group)=> group.subGroups)
     group: Group
 
     @Column()

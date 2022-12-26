@@ -13,9 +13,9 @@ export class CategoryController{
     // only admin user can add or delete category
 
     /**
-     * API to create, update or delete a category
-     * @param requestBody : name, shortname
-     * @returns created category
+     * API to create, update or delete a category, subcategory, group or a subgroup
+     * @param requestBody
+     * @returns generic success response
      */
 
     @Post("/handle")
@@ -26,10 +26,25 @@ export class CategoryController{
         return new GenericReponse()
     }
 
+    /**
+     * api to get categories, both aggregated and alone
+     * @param requestBody 
+     * @returns categories or aggregated categories
+     */
+    // TO-DO: implement response model
     @Post("/getCategories")
     public async getCategories(
         @Body() requestBody: {isAggregated? : boolean}
     ) : Promise<any>{
         const response = await categoryService.getCategories(requestBody.isAggregated);
+        return response
+    }
+
+    @Post("/getSubcategories")
+    public async getSubCategories(
+        @Body() requestBody: {isAggregated? : boolean, categoryShortName: string, categoryId: number}
+    ) : Promise<any>{
+        const response = await categoryService.getSubCategories(requestBody.isAggregated);
+        return response
     }
 }

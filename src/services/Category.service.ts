@@ -6,6 +6,7 @@ import { CreatecategoryRequest } from "../models/index";
 
 class CategoryService{
 
+
     public async handleCategory(requestBody: CreatecategoryRequest): Promise<void>{
 
         try{
@@ -23,8 +24,8 @@ class CategoryService{
                 case CategoryField.GROUP:
                     await this.groupHandler(name, shortName, context, subCategoryShortName);
                     break;
-                case CategoryField.SUB_CATEGORY:
-                    await this.subCategoryHandler(name, shortName, context, groupShortName);
+                case CategoryField.SUB_GROUP:
+                    await this.subGroupHandler(name, shortName, context, groupShortName);
                     break;
             
             }
@@ -33,12 +34,47 @@ class CategoryService{
         }
     }
 
+
     public async getCategories(isAggregated?: boolean){
+        let relations: string[] = [];
+        if(isAggregated){
+            relations = ["subCategories", "subCategories.groups"];
+        }
         try{
             const categories = await categoryRepository.find({
-                relations : ["subCategory"]
+                relations : relations
             })
             return categories;
+        } catch(e: any){
+            throw new HttpError(400, e.message)
+        }
+    }
+
+    public async getSubCategories(isAggregated?: boolean){
+        let relations: string[] = [];
+        if(isAggregated){
+            relations = ["groups"];
+        }
+        try{
+            const subCategories = await subCategoryRepository.find({
+                relations : relations
+            })
+            return subCategories;
+        } catch(e: any){
+            throw new HttpError(400, e.message)
+        }
+    }
+
+    public async getGroups(isAggregated?: boolean){
+        let relations: string[] = [];
+        if(isAggregated){
+            relations = ["groups"];
+        }
+        try{
+            const subCategories = await subCategoryRepository.find({
+                relations : relations
+            })
+            return subCategories;
         } catch(e: any){
             throw new HttpError(400, e.message)
         }
@@ -59,8 +95,8 @@ class CategoryService{
         }
     }
 
+
     async subCategoryHandler(name: string | undefined, shortName: string, context: CategoryContext, categoryShortName: string|undefined): Promise<void>{
-        console.log(context, "???????")
         switch(context){
             case CategoryContext.CREATE:
                 console.log(name, categoryShortName, shortName,"--------")
@@ -71,7 +107,6 @@ class CategoryService{
                         shortName : categoryShortName
                     },
                 })
-                console.log(category, ">>>>>")
                 if(!category) throw new HttpError(400, `Category wit shortName ${categoryShortName} not found`);
                 await subCategoryRepository.save({name, shortName, category});
                 break;
