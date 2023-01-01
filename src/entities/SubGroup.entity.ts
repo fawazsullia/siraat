@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm"
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn} from "typeorm"
 import { Group } from "./Group.entity";
 
 
@@ -8,15 +8,15 @@ export class SubGroup{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(()=> Group)
+    @ManyToOne(()=> Group, (group)=> group.subGroups)
     group: Group
 
     @Column()
     name: string;
 
-    @Column({nullable: true})
+    @Column({unique: true})
     shortName: string;
 
-    @Column()
+    @CreateDateColumn()
     createdAt: Date
 }

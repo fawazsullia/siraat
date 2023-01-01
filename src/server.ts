@@ -1,20 +1,20 @@
-import Express from "express";
 import Cors from "cors";
 import dbConfig from "./config/dbConfig";
 import 'reflect-metadata';
 import { createExpressServer } from "routing-controllers";
-import path from "path";
-import { UserController } from "./controllers/User.controller.js";
+import { UserController } from "./controllers/User.controller";
+import { CategoryController } from "./controllers/Category.controller";
 
 const APP_PORT = process.env.APP_PORT || 9005;
-console.log(__dirname)
+
+// TODO: User path join to import all controllers at once
 
 const app = createExpressServer({
+    middlewares : [],
     routePrefix : "/api",
-    controllers : [path.join(__dirname + "/controllers/index.js")]
+    controllers : [UserController, CategoryController]
 
 })
-
 
 
 dbConfig.initialize()

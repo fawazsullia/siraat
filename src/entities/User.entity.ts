@@ -35,5 +35,8 @@ export class User{
     @Column({nullable: true})
     whatsappNumber: string;
 
+    @Column({nullable: true})
+    companyId: number;
+
 }
 
