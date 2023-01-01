@@ -42,9 +42,25 @@ export class CategoryController{
 
     @Post("/getSubcategories")
     public async getSubCategories(
-        @Body() requestBody: {isAggregated? : boolean, categoryShortName: string, categoryId: number}
+        @Body() requestBody: {isAggregated? : boolean, categoryId?: number}
     ) : Promise<any>{
-        const response = await categoryService.getSubCategories(requestBody.isAggregated);
+        const response = await categoryService.getSubCategories(requestBody);
+        return response
+    }
+
+    @Post("/getGroups")
+    public async getGroups(
+        @Body() requestBody: {isAggregated? : boolean, subCategoryId?: number}
+    ) : Promise<any>{
+        const response = await categoryService.getGroups(requestBody);
+        return response
+    }
+
+    @Post("/getSubGroups")
+    public async getSubGroups(
+        @Body() requestBody: {groupId?: number}
+    ) : Promise<any>{
+        const response = await categoryService.getSubGroups(requestBody);
         return response
     }
 }

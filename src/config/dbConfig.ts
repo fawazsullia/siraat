@@ -10,6 +10,8 @@ const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_HOST = process.env.DB_HOST;
 
+const entities = [User, Category, SubCategory, Group, SubGroup, Product, User];
+
 
 
 const AppDataSource = new DataSource({
@@ -21,7 +23,7 @@ const AppDataSource = new DataSource({
             database: DB_NAME,
             synchronize: true,
             logging: true,
-            entities: [User, Category, SubCategory, Group, SubGroup, Product],
+            entities,
             subscribers: [],
             migrations: [],
 })

@@ -6,7 +6,12 @@ import { CreatecategoryRequest } from "../models/index";
 
 class CategoryService{
 
-
+    /**
+     * 
+     * @param requestBody 
+     * handles category creation, updation and deletion
+     * returns void
+     */ 
     public async handleCategory(requestBody: CreatecategoryRequest): Promise<void>{
 
         try{
@@ -34,7 +39,12 @@ class CategoryService{
         }
     }
 
-
+    /**
+     * 
+     * @param isAggregated 
+     * @returns categories
+     * Controller service to get categories
+     */
     public async getCategories(isAggregated?: boolean){
         let relations: string[] = [];
         if(isAggregated){
@@ -50,14 +60,24 @@ class CategoryService{
         }
     }
 
-    public async getSubCategories(isAggregated?: boolean){
+    /**
+     * 
+     * @param requestBody 
+     * @returns 
+     * Controller service to get subcategories
+     */
+    public async getSubCategories(requestBody?: any){
         let relations: string[] = [];
+        const query : any = {}
+        const {isAggregated, categoryId} = requestBody
         if(isAggregated){
             relations = ["groups"];
         }
+        if(categoryId) query.categoryId = categoryId
         try{
             const subCategories = await subCategoryRepository.find({
-                relations : relations
+                relations : relations,
+                where: query
             })
             return subCategories;
         } catch(e: any){
@@ -65,21 +85,54 @@ class CategoryService{
         }
     }
 
-    public async getGroups(isAggregated?: boolean){
+    /**
+     * 
+     * @param requestBody 
+     * @returns 
+     * Controller service to get groups
+     */
+    public async getGroups(requestBody: any){
+        const {isAggregated, subCategoryId} = requestBody
         let relations: string[] = [];
+        const query: any = {}
         if(isAggregated){
-            relations = ["groups"];
+            relations = ["subGroups"];
         }
+        if(subCategoryId) query.subCategoryId = subCategoryId
         try{
-            const subCategories = await subCategoryRepository.find({
-                relations : relations
+            const groups = await groupRepository.find({
+                relations : relations,
+                where: query
             })
-            return subCategories;
+            return groups;
         } catch(e: any){
             throw new HttpError(400, e.message)
         }
     }
 
+    /**
+     * 
+     * @param requestBody 
+     * @returns 
+     * Controller service to get subGroups
+     */
+    public async getSubGroups(requestBody: any){
+        const {isAggregated, groupId} = requestBody
+        let relations: string[] = [];
+        const query: any = {}
+        if(groupId) query.subCategoryId = groupId
+        try{
+            const subGroups = await subGroupRespository.find({
+                relations : relations,
+                where: query
+            })
+            return subGroups;
+        } catch(e: any){
+            throw new HttpError(400, e.message)
+        }
+    }
+
+    // handle categpry creation, updation and deletion
     async categoryHandler(name: string | undefined, shortName: string, context: CategoryContext): Promise<void>{
         switch(context){
             case CategoryContext.CREATE:
@@ -95,7 +148,7 @@ class CategoryService{
         }
     }
 
-
+    // handle subcategory creation, updation and deletion
     async subCategoryHandler(name: string | undefined, shortName: string, context: CategoryContext, categoryShortName: string|undefined): Promise<void>{
         switch(context){
             case CategoryContext.CREATE:
@@ -119,6 +172,7 @@ class CategoryService{
         }
     }
 
+    // handle group creation, updation and deletion
     async groupHandler(name: string | undefined, shortName: string, context: CategoryContext, subCategoryShortName: string|undefined): Promise<void>{
         switch(context){
             case CategoryContext.CREATE:
@@ -140,6 +194,7 @@ class CategoryService{
         }
     }
 
+    // handle subgroup creation, updation and deletion
     async subGroupHandler(name: string | undefined, shortName: string, context: CategoryContext, groupShortName: string|undefined): Promise<void>{
         switch(context){
             case CategoryContext.CREATE:
