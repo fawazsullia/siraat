@@ -2,7 +2,6 @@ import { Body, Get, JsonController, Post, UseBefore } from "routing-controllers"
 import { categoryService } from "../services/Category.service";
 import {json} from "body-parser"
 import { CreatecategoryRequest, GenericReponse } from "../models/index";
-import { CreateCategoryResponse } from "../models/category/createCategoryResponse.model";
 
 
 @JsonController("/category")

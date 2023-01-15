@@ -1,6 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm"
-import { UserType } from "../enums/UserType.enum";
-import { CountryList } from "../enums/CountryList.enum.js";
+import { CountryList, UserType, InternalUserType } from "../enums";
 
 @Entity()
 export class User{
@@ -8,19 +7,19 @@ export class User{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: true})
     name: string;
 
     @Column()
     email: string;
 
-    @Column()
+    @Column({nullable: true})
     contactNumber: string;
 
     @Column()
     type: UserType;
 
-    @Column()
+    @Column({nullable: true})
     address: string;
 
     @Column({nullable: true})
@@ -37,6 +36,9 @@ export class User{
 
     @Column({nullable: true})
     companyId: number;
+
+    @Column({enum: InternalUserType})
+    internalUserType: InternalUserType
 
 }
 
