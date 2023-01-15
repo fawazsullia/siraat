@@ -38,7 +38,10 @@ export class User{
     companyId: number;
 
     @Column({enum: InternalUserType})
-    internalUserType: InternalUserType
+    internalUserType: InternalUserType;
+
+    @Column()
+    password: string;
 
 }
 

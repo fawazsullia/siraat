@@ -7,6 +7,7 @@ import { CategoryController } from "./controllers/Category.controller";
 import { TypeormStore } from "connect-typeorm/out/index";
 import express from "express";
 import { sessionRepository } from "./entities/repository";
+import { AuthController } from "./controllers/Auth.controller";
 const session = require("express-session");
 
 const APP_PORT = process.env.APP_PORT || 9005;
@@ -41,7 +42,7 @@ app.use(session({
 useExpressServer(app, {
     middlewares : [],
     routePrefix : "/api",
-    controllers : [UserController, CategoryController]
+    controllers : [UserController, CategoryController, AuthController]
 
 });
 
