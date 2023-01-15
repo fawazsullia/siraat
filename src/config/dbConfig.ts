@@ -2,7 +2,7 @@
 import dotenv from "dotenv"
 dotenv.config()
 import {DataSource} from "typeorm"
-import { Category, Group, Product, SubCategory, SubGroup, User } from "../entities";
+import { Category, Group, Product, Session, SubCategory, SubGroup, User } from "../entities";
 
 const DB_PORT = Number(process.env.DB_PORT);
 const DB_NAME = process.env.DB_NAME;
@@ -10,7 +10,7 @@ const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_HOST = process.env.DB_HOST;
 
-const entities = [User, Category, SubCategory, Group, SubGroup, Product, User];
+const entities = [User, Category, SubCategory, Group, SubGroup, Product, User, Session];
 
 
 

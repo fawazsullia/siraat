@@ -1,4 +1,4 @@
-export const enum UserType {
+export enum UserType {
     BUYER = "buyer",
     WHOLESALER = "wholesaler",
     MANUFACTURER = "manufacturer"
