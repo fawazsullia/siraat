@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  siraat-backend-dev:
+    image: siraat-backend-dev:latest
+    build: 
+      context: .
+      dockerfile: dev.Dockerfile
+      cache_from: 
+        - siraat-backend-dev:latest 
+    restart: always
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - db
+    volumes:
+    - .:/usr/src/app
+
+  db:
+    container_name: postgres
+    image: postgres
+    ports:
+      - '5432:${DB_PORT}'
+    volumes:
+      - data:/data/db
+    environment:
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+
+volumes: 
+ data: {}
