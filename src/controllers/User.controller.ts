@@ -16,7 +16,6 @@ export class UserController {
         @Body() reqBody : CreateUserRequest,
         @Req() req: Request & {session : {user: number}}
     ){
-        console.log("222222")
         const response = await userService.createUser(reqBody, req)
         return response
     }

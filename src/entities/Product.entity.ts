@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm"
+import { IsOptional } from "class-validator";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn} from "typeorm"
 import { Category } from "./Category.entity";
 import { Group } from "./Group.entity";
 import { SubCategory } from "./SubCategory.entity";
@@ -35,18 +36,19 @@ export class Product{
     @Column()
     price: number;
 
-    @Column()
+    @CreateDateColumn()
     createdAt: Date;
 
-    @Column()
+    @UpdateDateColumn()
     updatedAt: Date;
 
     @Column()
-    rating: number;
+    @IsOptional()
+    rating?: number;
 
     @Column()
     isBoosted: boolean;
 
-    @Column()
+    @Column({default: 0})
     tier: string;
 }
