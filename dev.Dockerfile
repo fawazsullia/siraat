@@ -1,4 +1,4 @@
-# docker build -f dev.Dockerfile -t siraat-backend-dev .
+# docker build -t siraat-backend-dev  -f dev.Dockerfile .
 
 FROM node:18-alpine
 

@@ -13,7 +13,7 @@ const DB_HOST = process.env.DB_HOST;
 const entities = [User, Category, SubCategory, Group, SubGroup, Product, User, Session];
 
 
-
+console.log(DB_PORT, ">>>>>")
 const AppDataSource = new DataSource({
             type: "postgres",
             host: DB_HOST,
